@@ -1,11 +1,12 @@
 const User = require('../models/users');
+const bcrypt = require('bcryptjs');
 
 const usersController = function(app) {
   app.post('/users', function(req, res) {
     var user = new User({
       fullName: req.body.fullName,
       email: req.body.email,
-      password: req.body.password
+      passwordDigest: bcrypt.hashSync(req.body.password, bcrypt.genSaltSync(10))
     })
     user.save(function(err) {
       var error;
