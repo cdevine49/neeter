@@ -3,7 +3,6 @@ const bcrypt = require('bcryptjs');
 
 const sessionController = function(app) {
   app.post('/session', function(req, res) {
-    debugger
     User.findOne({ email: req.body.email}, function(err, user) {
       if (user && bcrypt.compareSync(req.body.password, user.passwordDigest)) {
         const {fullName, email} = user;
@@ -13,6 +12,14 @@ const sessionController = function(app) {
         res.send("Invalid email or password");
       }
     })
+  });
+
+  app.delete('/session', function(req, res) {
+    req.session.destroy(function(err) {
+      if (err) throw err;
+      res.send(200);
+    });
+
   })
 }
 
