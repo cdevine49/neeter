@@ -13,7 +13,7 @@ const usersController = function(app) {
       if (err) {
         if (err.code === 11000) {
           error = "Email already taken"
-          res.send(error);
+          res.status(422).send({message: error});
         } else {
           throw err;
         }
