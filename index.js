@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongo = require('mongodb');
 const mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 const sessions = require('express-session');
 const path = require('path');
 
