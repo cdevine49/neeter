@@ -5,8 +5,8 @@ const sessionController = function(app) {
   app.post('/session', function(req, res) {
     User.findOne({ email: req.body.email}, function(err, user) {
       if (user && bcrypt.compareSync(req.body.password, user.passwordDigest)) {
-        const {fullName, email} = user;
-        req.session.user = {fullName, email};
+        const {_id, fullName, email} = user;
+        req.session.user = {_id, fullName, email};
         res.send("Pretend logged in");
       } else {
         res.send("Invalid email or password");

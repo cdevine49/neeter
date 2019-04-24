@@ -18,8 +18,8 @@ const usersController = function(app) {
           throw err;
         }
       } else {
-        const {fullName, email} = user;
-        req.session.user = {fullName, email};
+        const {_id, fullName, email} = user;
+        req.session.user = {_id, fullName, email};
         res.send(user);
       }
     })

@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 mongoose.Promise = require('bluebird');
 const sessions = require('express-session');
 const path = require('path');
+const fs = require('fs');
 
 const controllers = require('./controllers');
 
@@ -22,7 +23,19 @@ app.use(sessions({
 }))
 
 app.get('/', function(req, res, next) {
-  res.sendFile(path.join(__dirname+'/views/index.html'));
+  let file = fs.readFileSync(path.join(__dirname+'/views/index.html'), 'utf-8')
+  if (req.session.user) {
+    file = file
+    .replace('_id_', req.session.user._id)
+    .replace('_email_', req.session.user.email)
+    .replace('_fullName_', req.session.user.fullName)
+  } else {
+    file = file
+    .replace('_id_', "")
+    .replace('_email_', "")
+    .replace('_fullName_', "")
+  }
+  res.send(file);
 });
 
 controllers(app);
